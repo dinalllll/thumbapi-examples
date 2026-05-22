@@ -1,0 +1,65 @@
+{
+  "name": "YouTube Thumbnail Automation — ThumbAPI",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=YOUR_CHANNEL_ID",
+        "pollTimes": { "item": [{ "mode": "everyMinute", "value": 15 }] }
+      },
+      "name": "RSS Feed — YouTube Channel",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.thumbapi.dev/v1/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"title\": \"{{ $json.title }}\",\n  \"format\": \"youtube\",\n  \"imageStyle\": \"faceless\",\n  \"outputFormat\": \"webp\"\n}"
+      },
+      "name": "ThumbAPI — Generate Thumbnail",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [670, 300],
+      "credentials": {
+        "httpHeaderAuth": { "name": "ThumbAPI" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const base64String = $input.item.json.image;\nconst base64Data = base64String.includes(',') ? base64String.split(',')[1] : base64String;\nconst outputFormat = $input.item.json.outputFormat || 'webp';\n\nreturn {\n  json: {\n    title: $input.item.json.title,\n    format: $input.item.json.format,\n    outputFormat\n  },\n  binary: {\n    data: {\n      data: base64Data,\n      fileName: `thumbnail-${Date.now()}.${outputFormat}`,\n      mimeType: `image/${outputFormat}`\n    }\n  }\n};"
+      },
+      "name": "Decode Base64 Image",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [890, 300]
+    },
+    {
+      "parameters": {
+        "operation": "upload",
+        "name": "{{ $json.title }}.webp",
+        "parents": { "folderId": "YOUR_GOOGLE_DRIVE_FOLDER_ID" },
+        "binaryPropertyName": "data"
+      },
+      "name": "Google Drive — Upload",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [1110, 300]
+    }
+  ],
+  "connections": {
+    "RSS Feed — YouTube Channel": {
+      "main": [[{ "node": "ThumbAPI — Generate Thumbnail", "type": "main", "index": 0 }]]
+    },
+    "ThumbAPI — Generate Thumbnail": {
+      "main": [[{ "node": "Decode Base64 Image", "type": "main", "index": 0 }]]
+    },
+    "Decode Base64 Image": {
+      "main": [[{ "node": "Google Drive — Upload", "type": "main", "index": 0 }]]
+    }
+  }
+}

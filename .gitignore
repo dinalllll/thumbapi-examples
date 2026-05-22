@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment files — never commit your API key
+.env
+.env.local
+*.env
+
+# Output thumbnails
+*.webp
+*.png
+output/
+generated/
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
