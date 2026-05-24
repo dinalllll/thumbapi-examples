@@ -16,14 +16,17 @@ Public scenario template — drops straight into your Make.com account:
 
 ## After cloning
 
-1. Open the cloned scenario in your Make dashboard.
-2. **HTTP module → Headers:** replace `YOUR_API_KEY` with your real key from [app.thumbapi.dev](https://app.thumbapi.dev).
-3. **Replace the Set variable placeholder** with your real trigger — YouTube Watch Videos, Google Sheets Watch Rows, RSS, Webhook, etc.
-4. **Add your destination module** after the Set-multiple-variables step:
+> ⚠️ **Important:** the cloned scenario ships with the public test key `thumbapi_test` in the `x-api-key` header. That key returns a static placeholder image — useful for confirming the wiring works, but it does **not** generate real thumbnails. To generate actual content, sign up at [app.thumbapi.dev](https://app.thumbapi.dev) (free tier: 5 generations/month, no credit card) and swap it for your own API key.
+
+1. **Sign up at [app.thumbapi.dev](https://app.thumbapi.dev)** (free, no credit card) and copy your personal API key from the dashboard.
+2. Open the cloned scenario in your Make dashboard.
+3. **HTTP module → Headers:** replace `thumbapi_test` with the API key you just copied. This is the only required change to start generating real thumbnails.
+4. **Replace the Set variable placeholder** with your real trigger — YouTube Watch Videos, Google Sheets Watch Rows, RSS, Webhook, etc.
+5. **Add your destination module** after the Set-multiple-variables step:
    - **Google Drive → Upload a file:** map `imageData` to File data, `fileName` to File name.
    - **WordPress → Update post featured image:** map `imageData`.
    - **Slack → Send a message:** include `fileName` in the message text, attach `imageData`.
-5. Click **Run once** to test. Activate the scenario when it works end-to-end.
+6. Click **Run once** to test. Activate the scenario when it works end-to-end.
 
 ## See also
 
