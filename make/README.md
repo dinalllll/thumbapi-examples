@@ -8,6 +8,8 @@ Public scenario template — drops straight into your Make.com account:
 
 **[Clone Scenario in Make.com →](https://eu1.make.com/public/shared-scenario/QQ4D5gXkxnn/integration-tools-http)**
 
+> Don't have a Make.com account yet? [Sign up free here](https://www.make.com/en/register?pc=thumbapimake) — the free tier includes 1,000 operations/month, more than enough to run this scenario.
+
 ## What it includes
 
 - **Set variable** (placeholder trigger) — sample title for testing.
