@@ -37,6 +37,7 @@ Response:
 | [cURL](./curl) | Minimal shell examples for every style and format |
 | [WordPress](./wordpress) | Single-file plugin: auto-generate the featured image on post publish |
 | [n8n](./n8n) | Importable workflow JSON: YouTube RSS → ThumbAPI → Google Drive |
+| [Make.com](./make) | Public scenario template — one-click clone, then attach your trigger and destination |
 
 ## Getting an API key
 
